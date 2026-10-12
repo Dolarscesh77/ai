@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="hy">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>TN_Designer Ai</title>
+<style>
+:root{--bg:#f6f5fb;--ink:#14142b;--mut:#6b6b8a;--card:#ffffff;--line:#e4e2f0;--acc:#5b4bff;--acc2:#ece9ff;--hero1:#c9c2ff;--hero2:#ffd9c7;--hero3:#c4f1e4;--sh:0 1px 2px rgba(20,20,43,.06),0 12px 32px -12px rgba(60,50,160,.22);--btn:#14142b;--btnt:#fff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d0d1c;--ink:#f0f0fb;--mut:#9e9ec0;--card:#171730;--line:#2a2a4a;--acc:#8a7dff;--acc2:#25235a;--hero1:#2d2a6e;--hero2:#4a2a3a;--hero3:#1a4a47;--sh:0 1px 2px rgba(0,0,0,.4),0 12px 32px -12px rgba(0,0,0,.6);--btn:#f0f0fb;--btnt:#14142b}}
+:root[data-theme="dark"]{--bg:#0d0d1c;--ink:#f0f0fb;--mut:#9e9ec0;--card:#171730;--line:#2a2a4a;--acc:#8a7dff;--acc2:#25235a;--hero1:#2d2a6e;--hero2:#4a2a3a;--hero3:#1a4a47;--sh:0 1px 2px rgba(0,0,0,.4),0 12px 32px -12px rgba(0,0,0,.6);--btn:#f0f0fb;--btnt:#14142b}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:17.5px/1.6 "Inter","SF Pro Text","Segoe UI",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.hero{position:relative;overflow:hidden;padding:22px 20px 70px;background:radial-gradient(60% 90% at 12% 10%,var(--hero1),transparent 70%),radial-gradient(55% 80% at 92% 20%,var(--hero2),transparent 70%),radial-gradient(60% 90% at 55% 110%,var(--hero3),transparent 70%),var(--bg)}
+.hero-in{max-width:1040px;margin:auto}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:-.01em}
+.logo{width:34px;height:34px;border-radius:11px;background:var(--ink);color:var(--bg);display:grid;place-items:center}
+h1{margin:44px 0 0;font:500 clamp(2.6rem,10vw,5.2rem)/1.04 "Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;letter-spacing:-.025em;max-width:15ch}
+h1 em{font-style:italic;color:var(--acc)}
+.hero p{margin:16px 0 0;max-width:40ch;font-size:1.06rem;color:var(--mut)}
+.tabs{position:relative;z-index:2;max-width:1040px;margin:-28px auto 0;padding:0 16px}
+.seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;padding:5px;background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--sh)}
+.seg button{display:flex;align-items:center;justify-content:center;gap:8px;padding:15px 6px;border:0;border-radius:13px;background:none;color:var(--mut);font:600 .93rem inherit;font-family:inherit;cursor:pointer;transition:background .2s,color .2s}
+.seg button svg{width:21px;height:21px;flex:none}
+.seg button[aria-selected=true]{background:var(--ink);color:var(--bg)}
+main{max-width:1040px;margin:auto;padding:18px 16px 40px}
+section{display:none}section.on{display:block}
+.card{background:var(--card);border:1px solid var(--line);border-radius:26px;padding:28px;box-shadow:var(--sh)}
+h2{margin:0 0 6px;font-size:1.75rem;letter-spacing:-.02em}
+.sub{margin:0 0 16px;color:var(--mut);font-size:.95rem}
+textarea,input{width:100%;padding:14px 16px;border:1px solid var(--line);border-radius:14px;background:var(--bg);color:var(--ink);font:inherit;transition:border-color .15s,box-shadow .15s}
+textarea{min-height:130px;resize:vertical}
+textarea:focus,input:focus{outline:0;border-color:var(--acc);box-shadow:0 0 0 4px var(--acc2)}
+.chips{display:flex;gap:8px;overflow-x:auto;margin:0 0 12px;padding-bottom:2px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chips button{flex:none;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:99px;padding:9px 17px;font:inherit;font-size:.92rem;cursor:pointer;transition:border-color .15s,background .15s}
+.chips button:hover{border-color:var(--acc);background:var(--acc2)}
+.btn{display:inline-flex;align-items:center;gap:8px;border:0;background:var(--btn);color:var(--btnt);border-radius:16px;padding:16px 28px;font:600 1.05rem inherit;font-family:inherit;cursor:pointer;transition:transform .1s,opacity .15s}
+.btn:hover{opacity:.9}.btn:active{transform:scale(.97)}
+.btn.alt{background:var(--bg);color:var(--ink);border:1px solid var(--line);padding:9px 15px;font-size:.88rem;border-radius:11px}
+.btn:disabled{opacity:.6;cursor:progress}
+.btn.busy::before{content:"";width:14px;height:14px;border-radius:50%;border:2px solid currentColor;border-right-color:transparent;animation:sp .7s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.row{display:flex;gap:10px;margin:14px 0 0;flex-wrap:wrap;align-items:center}
+.stage{margin-top:16px;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#fff}
+iframe{display:block;width:100%;height:70vh;border:0;background:#fff}
+pre{margin:0;padding:16px;max-height:62vh;overflow:auto;background:#10101f;color:#d9d9f5;font:.78rem/1.6 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap;word-break:break-all}
+.imgbox{padding:14px;text-align:center;background:var(--bg)}
+.imgbox img{max-width:100%;max-height:70vh;border-radius:12px;box-shadow:var(--sh)}
+.status{color:var(--mut);font-size:.9rem}
+.err{color:#d6284f;font-weight:600}
+#log{height:58vh;overflow-y:auto;border:1px solid var(--line);border-radius:16px;background:var(--bg);padding:16px;display:flex;flex-direction:column;gap:10px}
+.m{max-width:84%;padding:11px 15px;border-radius:18px;white-space:pre-wrap;word-wrap:break-word}
+.m.u{align-self:flex-end;background:var(--ink);color:var(--bg);border-bottom-right-radius:6px}
+.m.a{align-self:flex-start;background:var(--card);border:1px solid var(--line);border-bottom-left-radius:6px}
+.cr{display:flex;gap:10px;margin-top:12px}
+.cr input{flex:1}
+@media(max-width:480px){.seg button span{font-size:.85rem}.card{padding:16px;border-radius:18px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+select{padding:11px 14px;border:1px solid var(--line);border-radius:12px;background:var(--bg);color:var(--ink);font:inherit}
+.out{margin-top:16px;padding:18px;border:1px solid var(--line);border-radius:16px;background:var(--bg);white-space:pre-wrap;word-wrap:break-word;line-height:1.7}
+.out.code{font:.85rem/1.6 ui-monospace,Menlo,monospace;background:#10101f;color:#d9d9f5}
+</style>
+</head>
+<body>
+<div class="hero"><div class="hero-in">
+  <div class="brand"><span class="logo"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/></svg></span>TN_Designer Ai</div>
+  <h1>Ստեղծիր այն, ինչ քո <em>մտքում</em> է</h1>
+  <p>Կայք, նկար, տեքստ, կոդ, թարգմանություն կամ զրույց։ Գրիր նկարագրությունը, մնացածը՝ արհեստական բանականությանը։</p>
+</div></div>
+<div class="tabs"><nav class="seg" role="tablist" aria-label="Բաժիններ"><button role="tab" aria-selected="true" data-t="site"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 9h18"/></svg><span>Կայք</span></button><button role="tab" aria-selected="false" data-t="img"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="1.8"/><path d="M21 15l-5-5L5 21"/></svg><span>Նկար</span></button><button role="tab" aria-selected="false" data-t="chat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 01-11.6 7.1L4 20l1-4.6A8 8 0 1121 12z"/></svg><span>Զրույց</span></button><button role="tab" aria-selected="false" data-t="txt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg><span>Տեքստ</span></button><button role="tab" aria-selected="false" data-t="code"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 8l-5 4 5 4M16 8l5 4-5 4M14 5l-4 14"/></svg><span>Կոդ</span></button><button role="tab" aria-selected="false" data-t="tr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg><span>Թարգմանիչ</span></button></nav></div>
+<main>
+<section id="site" class="on"><div class="card">
+  <h2>Ստեղծիր վեբ կայք</h2>
+  <p class="sub">Նկարագրիր կայքը, և կստանաս ամբողջական HTML, CSS ու JS կոդ։</p>
+  <div class="chips" data-for="sp"><button>Սրճարանի կայք՝ մենյուով և կապի ձևով</button><button>Լուսանկարչի պորտֆոլիո</button><button>Մարզասրահի կայք գնացուցակով</button><button>Տետրիս խաղ</button></div>
+  <textarea id="sp" placeholder="Օրինակ՝ Երևանյան սրճարան, ջերմ գույներ, մենյու, կապի ձև"></textarea>
+  <div class="row"><button class="btn" id="sb">Ստեղծել կայքը</button><span class="status" id="ss"></span></div>
+  <div id="sr" hidden>
+    <div class="row"><button class="btn alt" id="sv">Կոդ / Դիտել</button><button class="btn alt" id="sc">Պատճենել</button><button class="btn alt" id="sd">Ներբեռնել</button></div>
+    <div class="stage"><iframe id="sf" sandbox="allow-scripts allow-forms" title="Նախադիտում"></iframe><pre id="sx" hidden></pre></div>
+  </div>
+</div></section>
+
+<section id="img"><div class="card">
+  <h2>Ստեղծիր նկար</h2>
+  <p class="sub">Արհեստական բանականությունը նկարում է վեկտորային (SVG) պատկերներ՝ լոգո, նկարազարդում, ֆոն։</p>
+  <div class="chips" data-for="ip"><button>Արևածագ Արարատի վրա</button><button>Ռոբոտ-կատվի լոգո</button><button>Գիշերային Երևան</button><button>Աբստրակտ երկրաչափական նկար</button></div>
+  <textarea id="ip" placeholder="Նկարագրիր, թե ինչ նկար ես ուզում"></textarea>
+  <div class="row"><button class="btn" id="ib">Ստեղծել նկարը</button><span class="status" id="is"></span></div>
+  <div id="ir" hidden><div class="row"><button class="btn alt" id="id">Ներբեռնել SVG</button></div><div class="stage imgbox"><img id="io" alt="Ստեղծված նկար"></div></div>
+</div></section>
+
+<section id="chat"><div class="card">
+  <h2>Զրուցիր արհեստական բանականության հետ</h2>
+  <p class="sub">Հարցեր, գաղափարներ, խորհուրդներ, բացատրություններ։</p>
+  <div id="log" aria-live="polite"><div class="m a">Բարև։ Ինչո՞վ կարող եմ օգնել։</div></div>
+  <div class="cr"><input id="cp" placeholder="Գրիր հարցդ..." autocomplete="off"><button class="btn" id="cb">Ուղարկել</button></div>
+  <p class="status" id="cs"></p>
+</div></section>
+</main>
+
+<script>
+const $=id=>document.getElementById(id);
+let sample=null,downloads=null;
+// Standalone AI: kanchum e qo serveri /api/ai-n (API key-@ miayn serveri vra e)
+const API_BASE=location.protocol==="file:"?"http://localhost:3000":"";
+sample=async(input,opts={})=>{
+  const messages=typeof input==="string"?[{role:"user",content:input}]:input;
+  let r;
+  try{r=await fetch(API_BASE+"/api/ai",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({messages}),signal:opts.signal})}
+  catch(x){const e=new Error("net");e.code="no_server";throw e}
+  if(!r.ok){const e=new Error("api");e.code=r.status===429?"rate_limited":r.status===401?"bad_key":"error";throw e}
+  const rd=r.body.getReader(),dec=new TextDecoder();let text="";
+  for(;;){const{done,value}=await rd.read();if(done)break;text+=dec.decode(value,{stream:true});if(opts.onText)opts.onText({text})}
+  if(!text.trim()){const e=new Error("empty");e.code="error";throw e}
+  return{text};
+};
+
+const HY="Write in Armenian (Eastern Armenian, Armenian script) unless told otherwise.";
+function clean(t){return t.replace(/^\s*```[a-z]*\s*/i,"").replace(/```\s*$/,"").trim()}
+function setBusy(btn,on,label){btn.disabled=on;btn.classList.toggle("busy",on);btn.textContent=on?"Աշխատում է...":label}
+function fail(el,e){if(e&&e.code==="no_server"){el.textContent="Սերվերը չի աշխատում։ Տերմինալում գործարկիր՝ node server.js, հետո բացիր http://localhost:3000";el.classList.add("err");return}if(e&&e.code==="bad_key"){el.textContent="API բանալին սխալ է կամ բացակայում է (ANTHROPIC_API_KEY)։";el.classList.add("err");return}el.textContent=(e&&e.code==="not_granted")?"Թույլտվություն է պետք արհեստական բանականությունն օգտագործելու համար։":(e&&e.code==="rate_limited")?"Շատ հարցումներ, մի փոքր սպասիր։":"Սխալ։ Փորձիր նորից։";el.classList.add("err")}
+async function save(name,data,type){
+  if(downloads){try{await downloads.save({filename:name,data});return}catch(e){}}
+  const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([data],{type}));a.download=name;a.click();
+}
+const show=(el,t)=>{el.className="status";el.textContent=t};
+
+// Tabs + chips
+document.querySelectorAll(".seg button").forEach(b=>b.onclick=()=>{
+  document.querySelectorAll(".seg button").forEach(x=>x.setAttribute("aria-selected",String(x===b)));
+  document.querySelectorAll("section").forEach(s=>s.classList.toggle("on",s.id===b.dataset.t));
+});
+function wireChips(root){(root||document).querySelectorAll(".chips").forEach(c=>c.onclick=e=>{if(e.target.tagName==="BUTTON"){const t=$(c.dataset.for);t.value=e.target.textContent;t.focus()}})}
+wireChips();
+
+// 1) Site
+let siteCode="";
+$("sb").onclick=async()=>{
+  const p=$("sp").value.trim();if(!p||!sample)return;
+  show($("ss"),"Գրվում է կոդը...");setBusy($("sb"),true);
+  try{
+    const r=await sample(`You are a senior front-end designer-developer. Build ONE complete, self-contained, responsive, polished, distinctive website as a single HTML file with inline <style> and <script>. Set <html lang="hy"> and write all visible copy in Armenian script unless the brief asks for another language. Use tasteful modern typography with system font stacks, good spacing, mobile-first, accessible, subtle interactions. No external resources or images (use CSS/SVG). Output ONLY the raw HTML starting with <!DOCTYPE html>, no markdown fences, no commentary.\n\nBrief: ${p}`,
+      {modelTier:"complex",cache:false,onText:({text})=>{$("ss").textContent="Գրվում է... "+text.length+" նիշ"}});
+    siteCode=clean(r.text);
+    $("sf").srcdoc=siteCode;$("sx").textContent=siteCode;$("sr").hidden=false;$("sf").hidden=false;$("sx").hidden=true;
+    $("ss").textContent="Պատրաստ է։";
+  }catch(e){fail($("ss"),e)}
+  setBusy($("sb"),false,"Ստեղծել կայքը");
+};
+$("sv").onclick=()=>{$("sf").hidden=!$("sf").hidden;$("sx").hidden=!$("sx").hidden};
+$("sc").onclick=async()=>{try{await navigator.clipboard.writeText(siteCode);$("sc").textContent="Պատճենվեց";setTimeout(()=>$("sc").textContent="Պատճենել",1500)}catch(e){$("sf").hidden=true;$("sx").hidden=false}};
+$("sd").onclick=()=>save("site.html",siteCode,"text/html");
+
+// 2) Image
+let svgCode="";
+$("ib").onclick=async()=>{
+  const p=$("ip").value.trim();if(!p||!sample)return;
+  show($("is"),"Նկարվում է...");setBusy($("ib"),true);
+  try{
+    const r=await sample(`You are an expert vector illustrator. Create ONE striking, well-composed SVG illustration for the brief below. Use viewBox="0 0 800 800", a deliberate color palette, layered shapes, gradients and shading where they help. No scripts, no external references, no text unless the brief asks for it. Output ONLY the raw <svg>...</svg> markup, no fences, no commentary.\n\nBrief: ${p}`,{modelTier:"complex",cache:false});
+    const m=clean(r.text).match(/<svg[\s\S]*<\/svg>/i);if(!m)throw new Error("no svg");
+    svgCode=m[0];$("io").src="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(svgCode);
+    $("ir").hidden=false;$("is").textContent="Պատրաստ է։";
+  }catch(e){fail($("is"),e)}
+  setBusy($("ib"),false,"Ստեղծել նկարը");
+};
+$("id").onclick=()=>save("nkar.svg",svgCode,"image/svg+xml");
+
+// 3) Chat
+const hist=[];
+function add(c,t){const d=document.createElement("div");d.className="m "+c;d.textContent=t;$("log").append(d);$("log").scrollTop=1e9;return d}
+async function send(){
+  const p=$("cp").value.trim();if(!p||!sample||$("cb").disabled)return;
+  $("cp").value="";show($("cs"),"");add("u",p);hist.push({role:"user",content:p});setBusy($("cb"),true);
+  const bubble=add("a","...");
+  const msgs=hist.map((m,i)=>i===0?{...m,content:"Instructions: You are a friendly, concise assistant. Reply in Armenian script by default, or in the user's language if they clearly write in another one. If they write Armenian in Latin letters, reply in Armenian script.\n\n"+m.content}:m);
+  try{
+    const r=await sample(msgs,{cache:false,onText:({text})=>{bubble.textContent=text;$("log").scrollTop=1e9}});
+    bubble.textContent=r.text;hist.push({role:"assistant",content:r.text});
+  }catch(e){bubble.remove();hist.pop();fail($("cs"),e)}
+  setBusy($("cb"),false,"Ուղարկել");
+}
+$("cb").onclick=send;$("cp").addEventListener("keydown",e=>{if(e.key==="Enter")send()});
+
+// 4-6) Tool sections: text, code, translator
+const L=["Հայերեն","English","Русский","Français","Deutsch","Español","Italiano","中文","العربية","Türkçe"];
+const opt=a=>a.map(x=>`<option>${x}</option>`).join("");
+const tools={
+ txt:{title:"Գրիր տեքստ",sub:"Նամակ, գովազդ, սոցցանցի գրառում, նկարագրություն. ընտրիր տեսակն ու երանգը։",
+  chips:["Նամակ գործընկերոջը՝ հանդիպումը տեղափոխելու մասին","Instagram գրառում նոր սրճարանի մասին","Ապրանքի գովազդային նկարագրություն"],
+  ph:"Ինչի՞ մասին գրեմ",btn:"Գրել տեքստը",
+  sel:[["Տեսակ",["Էլ. նամակ","Գրառում","Գովազդ","Հոդված","Ելույթ"]],["Երանգ",["Պրոֆեսիոնալ","Ջերմ","Աշխույժ","Պաշտոնական","Հումորային"]]],
+  build:(p,v)=>`Write a ${v[0]} with a ${v[1]} tone. ${HY} Output only the finished text.\n\nTopic: ${p}`},
+ code:{title:"Կոդի օգնական",sub:"Գրիր ֆունկցիա, գտիր սխալը կամ բացատրիր կոդը։",
+  chips:["Գրիր JavaScript ֆունկցիա, որը դասավորում է զանգվածը","Բացատրիր՝ ինչ է անում այս կոդը","Գտիր սխալը իմ կոդում"],
+  ph:"Նկարագրիր խնդիրը կամ տեղադրիր կոդը",btn:"Օգնիր",code:true,
+  sel:[["Լեզու",["JavaScript","Python","HTML/CSS","TypeScript","Java","C#","PHP","SQL"]],["Գործողություն",["Գրել կոդ","Գտնել սխալը","Բացատրել","Օպտիմալացնել"]]],
+  build:(p,v)=>`Language: ${v[0]}. Task: ${v[1]}. Give clean, working code in a single fenced block followed by a short explanation. ${HY} Keep code identifiers and comments in English.\n\n${p}`},
+ tr:{title:"Թարգմանիչ",sub:"Թարգմանիր տեքստը ցանկացած լեզվով՝ բնական և ճշգրիտ։",
+  chips:["Բարի գալուստ մեր քաղաք","Շնորհակալ եմ ձեր օգնության համար"],
+  ph:"Տեղադրիր թարգմանելու տեքստը",btn:"Թարգմանել",
+  sel:[["Լեզու",L]],
+  build:(p,v)=>`Translate the text below into ${v[0]}. Keep meaning, tone and formatting. Output only the translation.\n\n${p}`}
+};
+Object.entries(tools).forEach(([k,t])=>{
+  const s=document.createElement("section");s.id=k;
+  s.innerHTML=`<div class="card"><h2>${t.title}</h2><p class="sub">${t.sub}</p>
+  <div class="chips" data-for="${k}p">${t.chips.map(c=>`<button>${c}</button>`).join("")}</div>
+  <textarea id="${k}p" placeholder="${t.ph}"></textarea>
+  <div class="row">${t.sel.map((x,i)=>`<label class="status">${x[0]}&nbsp;<select id="${k}s${i}">${opt(x[1])}</select></label>`).join("")}</div>
+  <div class="row"><button class="btn" id="${k}b">${t.btn}</button><span class="status" id="${k}t"></span></div>
+  <div id="${k}r" hidden><div class="row"><button class="btn alt" id="${k}c">Պատճենել</button></div><div class="out ${t.code?"code":""}" id="${k}o"></div></div></div>`;
+  document.querySelector("main").append(s);wireChips(s);
+  $(k+"b").onclick=async()=>{
+    const p=$(k+"p").value.trim();if(!p||!sample)return;
+    const v=t.sel.map((_,i)=>$(k+"s"+i).value);
+    show($(k+"t"),"Աշխատում է...");setBusy($(k+"b"),true);$(k+"r").hidden=false;$(k+"o").textContent="";
+    try{
+      const r=await sample(t.build(p,v),{cache:false,onText:({text})=>{$(k+"o").textContent=text}});
+      $(k+"o").textContent=r.text;$(k+"t").textContent="Պատրաստ է։";
+    }catch(e){fail($(k+"t"),e);$(k+"r").hidden=true}
+    setBusy($(k+"b"),false,t.btn);
+  };
+  $(k+"c").onclick=async()=>{try{await navigator.clipboard.writeText($(k+"o").textContent);$(k+"c").textContent="Պատճենվեց";setTimeout(()=>$(k+"c").textContent="Պատճենել",1500)}catch(e){}};
+});
+</script>
+</body>
+</html>
